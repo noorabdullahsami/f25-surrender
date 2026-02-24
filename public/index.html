@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When Messages Waited</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@400;600&family=Homemade+Apple&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+  <!-- Screen 1 -->
+  <div class="screen active" id="screen1">
+    <div class="content">
+    <h2 class="screen-title">Welcome back to waiting</h2>
+    <p class="screen-quote">"The illusion of a continuous narrative is created by what are actually discrete events"
+      <span class="quote-author">Altman</span>
+    </p>
+      <p class="reveal">
+        This experiment begins with a very old habit: writing to someone who is absent.
+      </p>
+      <p class="reveal delay1">
+        A letter moves as a sealed unit. It leaves one room, crosses distance, and arrives in another.
+        The time separates two people until the sheet of paper connects them.
+      </p>
+      <p class="reveal delay2">
+        The present of the writer never matches the present of the reader.
+        Every letter lives in that gap. What you feel now will reach the other as something already past.
+      </p>
+      <p class="reveal delay3">
+      </p>
+      <button class="continue-btn" onclick="nextScreen(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Screen 2 -->
+  <div class="screen" id="screen2">
+    <div class="content">
+          <h2 class="screen-title">Why Is This Project</h2>
+    <p class="screen-quote">"The average person checks their phone 150 times a day. Why do we do this? Are we making 150 conscious choices?"
+      <span class="quote-author">Tristan Harris</span>
+    </p>
+      <p class="reveal">
+        Current chat windows promise a different world. Messages appear almost at the moment of thought.
+      </p>
+      <p class="reveal delay1">
+        Sent. Delivered. Read. Tiny signals report every step.
+        Your screen invites you to watch the journey of each sentence in real time.
+      </p>
+      <p class="reveal delay2">
+        This pace narrows the present. A pause in reply can feel like a threat.
+        Waiting becomes a problem to solve instead of a condition to inhabit.
+      </p>
+      <p class="reveal delay3">
+      </p>
+      <button class="continue-btn" onclick="nextScreen(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Screen 3 -->
+  <div class="screen" id="screen3">
+    <div class="content">
+      <p class="question">
+        What does "typing..." do to your thoughts?
+      </p>
+      <div class="choices">
+        <button class="choice-btn" onclick="answerQuestion('race')">they race</button>
+        <button class="choice-btn" onclick="answerQuestion('soften')">they soften</button>
+        <button class="choice-btn" onclick="answerQuestion('scatter')">they scatter</button>
+      </div>
+      <div class="answer-response" id="answerResponse">
+        <p id="answerText"></p>
+        <button class="continue-btn" onclick="nextScreen(4)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 4 -->
+  <div class="screen" id="screen4">
+    <div class="content">
+          <h2 class="screen-title">What Is This Project</h2>
+    <p class="screen-quote">"The great feasibility of letter writing must have produced—from a purely theoretical point of view—a terrible dislocation of souls in the world."
+
+      <span class="quote-author">Janet Altman</span>
+    </p>
+      <p class="reveal">
+        You will write a message in the form of a letter to someone you choose.
+        The text will turn into cipher in this browser and wait on the server as unread code.
+      </p>
+      <p class="reveal delay1">
+        A random delay between 1 and 7 days will decide when it travels onward as an email.
+        No status mark will appear for you. No record of delivery will visit this page.
+      </p>
+      <p class="reveal delay2">
+        After you send it, you will not see the message again here.
+        Control over its timing and path will slip out of your hands by design.
+      </p>
+      <p class="reveal delay3">
+        <em>"We speak toward a time that never fully matches our own."  James W. Carey</em><br>
+        <em>"The check mark reassures, yet also keeps the sender on a leash."  Zeynep Tufekci</em>
+      </p>
+
+      <!-- Fate Slider -->
+      <div class="slider-block">
+        <p class="slider-question">How much uncertainty can you live with right now?</p>
+        <input type="range" id="uncertaintySlider" min="0" max="100" value="50">
+        <p class="slider-label" id="sliderLabel">Somewhere in the middle. You'll feel this a bit.</p>
+      </div>
+
+      <!-- Oath -->
+      <div class="oath">
+        <label>
+          <input type="checkbox" id="oathCheckbox">
+          I accept that once I send this message I lose access to its text here, and its route and timing will remain hidden from me.
+        </label>
+      </div>
+
+      <button class="continue-btn" id="readyBtn" disabled onclick="nextScreen(5)">I'm ready</button>
+    </div>
+  </div>
+
+  <!-- Screen 5 -->
+  <div class="screen" id="screen5">
+    <div class="content letter-content">
+      <form id="letterForm">
+        <!-- Email row stays outside the paper -->
+        <div class="form-row email-row">
+          <label>Their email:</label>
+          <input type="email" id="toEmail" required>
+        </div>
+
+        <div class="mail-container" id="mailContainer">
+          <!-- Paper -->
+          <div class="letter-body">
+            <div class="letter-header">
+              <div class="header-field">
+                <span class="header-label">From:</span>
+                <input type="text" id="fromName" class="letter-input" required>
+              </div>
+              <div class="header-field">
+                <span class="header-label">To:</span>
+                <input type="text" id="toName" class="letter-input" required>
+              </div>
+            </div>
+
+            <p>Dear <span id="previewToName">_______</span>,</p>
+            <p class="letter-note">
+            </p>
+            <textarea id="messageBody" required placeholder="Write what can survive the wait between this moment and theirs..."></textarea>
+            <p>Yours,<br><span id="previewFromName">_______</span></p>
+          </div>
+
+          <!-- Envelope for fly-out animation -->
+          <div class="envelope">
+            <div class="envelope-base">
+              <div class="flap-bottom"></div>
+              <div class="flap-left"></div>
+              <div class="flap-right"></div>
+            </div>
+            <div class="envelope-flap"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="send-btn">Send &amp; Surrender</button>
+      </form>
+
+      <p class="privacy-note">
+        Privacy: The body of your message becomes encrypted here in the browser before it leaves this page.
+        The server keeps only cipher text and the address. After the email goes out, that stored trace is deleted.
+      </p>
+    </div>
+  </div>
+
+  <!-- Screen 6 -->
+  <div class="screen" id="screen6">
+    <div class="content">
+    <h2 class="screen-title">After you let go</h2>
+    <p class="screen-quote">"We lose our words. Intelligence means more than any artificial intelligence does. It used to include sensibility, sensitivity, aware-ness, discernment, reason, acumen, and wit."
+      <span class="quote-author">Sherry Turkle</span>
+    </p>
+      <p>
+        It now exists as encrypted text in a queue that waits for its appointed time.
+        At some unknown hour within the next seven days it will reach the other side.
+      </p>
+      <p>
+        You cannot watch that movement from here.
+        You cannot adjust a word.
+        You cannot track the moment of arrival.
+      </p>
+      <p>
+        What remains with you is the interval between the decision to write and the unseen reading in the future.
+        Inside that interval you meet your own unease, curiosity, and hope.
+      </p>
+      <button class="continue-btn" onclick="nextScreen(5)">← Write another message</button>
+    </div>
+  </div>
+
+  <script>
+    // Encryption key (same on client and server)
+    const ENCRYPTION_KEY = "when-messages-waited-2024-secret-key";
+
+    // Navigation
+    function nextScreen(screenNumber) {
+      const currentScreen = document.querySelector('.screen.active');
+      const nextScreenEl = document.getElementById(`screen${screenNumber}`);
+      
+      if (!nextScreenEl || !currentScreen) return;
+      
+      currentScreen.classList.remove('active');
+      
+      setTimeout(() => {
+        nextScreenEl.classList.add('active');
+        
+        // Reset animations for reveal elements
+        const reveals = nextScreenEl.querySelectorAll('.reveal');
+        reveals.forEach(el => {
+          el.style.animation = 'none';
+          setTimeout(() => {
+            el.style.animation = '';
+          }, 10);
+        });
+
+        // If returning to the letter screen, reset any sending animation
+        if (screenNumber === 5) {
+          const letterCard = document.querySelector('.letter-body');
+          if (letterCard) {
+            letterCard.classList.remove('sending');
+          }
+        }
+      }, 600);
+    }
+
+    // Screen 3
+    function answerQuestion(choice) {
+      const buttons = document.querySelectorAll('.choice-btn');
+      buttons.forEach(btn => btn.style.display = 'none');
+
+      const response = document.getElementById('answerResponse');
+      const answerText = document.getElementById('answerText');
+
+      if (!response || !answerText) return;
+
+      let text = "";
+
+      switch (choice) {
+        case 'race':
+          text =
+            'Your thoughts run ahead of the moment and invent futures that do not exist yet.<br>' +
+            'A small signal on a screen turns stillness into a chase inside your mind.<br><br>'
+              break;
+
+        case 'soften':
+          text =
+            'Your thoughts loosen and fall into a slower rhythm.<br>' +
+            'For a brief second the silence feels kind instead of sharp.<br><br>'
+             break;
+
+        case 'scatter':
+          text =
+            'Your attention splits into fragments as you imagine many possible replies at once.<br>' +
+            'The pause becomes a room filled with doors that may open or stay closed.<br><br>'         
+             break;
+
+        default:
+          text =
+            'Something quiet stirs in the space before a reply forms.<br><br>'      }
+
+      answerText.innerHTML = text;
+      response.classList.add('show');
+    }
+
+    // Slider label logic
+    function updateSliderLabel(value) {
+      const label = document.getElementById('sliderLabel');
+      if (!label) return;
+
+      const v = Number(value);
+      if (v <= 25) {
+        label.textContent = "Very little. This may feel heavy, and that is part of the experiment.";
+      } else if (v <= 75) {
+        label.textContent = "Somewhere in the middle. The uncertainty will stay in the back of your mind.";
+      } else {
+        label.textContent = "Quite a lot. You claim comfort with the unknown. See how your body reacts.";
+      }
+    }
+
+    // Screen 5
+    document.addEventListener('DOMContentLoaded', () => {
+      const fromInput = document.getElementById('fromName');
+      const toInput = document.getElementById('toName');
+      const previewFrom = document.getElementById('previewFromName');
+      const previewTo = document.getElementById('previewToName');
+      const oathCheckbox = document.getElementById('oathCheckbox');
+      const readyBtn = document.getElementById('readyBtn');
+      const uncertaintySlider = document.getElementById('uncertaintySlider');
+
+      // Live preview for names
+      if (fromInput && previewFrom) {
+        fromInput.addEventListener('input', (e) => {
+          previewFrom.textContent = e.target.value || '_______';
+        });
+      }
+      
+      if (toInput && previewTo) {
+        toInput.addEventListener('input', (e) => {
+          previewTo.textContent = e.target.value || '_______';
+        });
+      }
+
+      // Oath checkbox → enable "I'm ready" button
+      if (oathCheckbox && readyBtn) {
+        oathCheckbox.addEventListener('change', (e) => {
+          readyBtn.disabled = !e.target.checked;
+        });
+      }
+
+      // Uncertainty slider → dynamic label
+      if (uncertaintySlider) {
+        // Initialize label for default value
+        updateSliderLabel(uncertaintySlider.value);
+        uncertaintySlider.addEventListener('input', (e) => {
+          updateSliderLabel(e.target.value);
+        });
+      }
+      
+      // Form submission
+      const form = document.getElementById('letterForm');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const fromName = document.getElementById('fromName').value;
+          const toName = document.getElementById('toName').value;
+          const toEmail = document.getElementById('toEmail').value;
+          const messageBody = document.getElementById('messageBody').value;
+
+          const letterCard = document.querySelector('.letter-body');
+          if (letterCard) {
+            // Trigger micro "Send & Surrender" animation
+            letterCard.classList.add('sending');
+          }
+          
+          // Encrypt message body
+          const encrypted = CryptoJS.AES.encrypt(messageBody, ENCRYPTION_KEY).toString();
+          
+          // Send to server
+          try {
+            const response = await fetch('/send', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                fromName,
+                toName,
+                toEmail,
+                ciphertext: encrypted
+              })
+            });
+            
+if (response.ok) {
+  // Wait for envelope animation to complete before moving to next screen
+  setTimeout(() => {
+    // Clear form
+    form.reset();
+    if (previewFrom) previewFrom.textContent = '_______';
+    if (previewTo) previewTo.textContent = '_______';
+    
+    nextScreen(6);
+  }, 3500); 
+              nextScreen(6);
+            } else {
+              alert('Something went wrong. Please try again.');
+              if (letterCard) {
+                letterCard.classList.remove('sending');
+              }
+            }
+          } catch (error) {
+            console.error('Error sending message:', error);
+            alert('Could not send message. Please check your connection.');
+            if (letterCard) {
+              letterCard.classList.remove('sending');
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
