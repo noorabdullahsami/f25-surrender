@@ -1,4 +1,4 @@
-# Surrender — Delayed Letter Communication Experiment
+# Surrender - Delayed Communication Experiment
 
 Surrender is a small experimental communication system that explores uncertainty and time in digital messaging.
 Instead of instant delivery, messages are encrypted, stored temporarily, and sent after a random delay.
@@ -34,14 +34,16 @@ The system intentionally removes instant feedback and introduces waiting as part
 
 1. Install dependencies
 
-npm install
+`npm install`
 
 2. Create a `.env` file in the root folder:
 
-EMAIL_USER=[your_email@gmail.com](mailto:your_email@gmail.com)
+```
+EMAIL_USER=[your_email@gmail.com]
 EMAIL_PASS=your_app_password
-EMAIL_FROM=[your_email@gmail.com](mailto:your_email@gmail.com)
+EMAIL_FROM=[your_email@gmail.com]
 ENCRYPTION_KEY=your_secret_key
+```
 
 3. Start the server
 
