@@ -47,7 +47,7 @@ ENCRYPTION_KEY=your_secret_key
 
 3. Start the server
 
-node server.js
+`node server.js`
 
 4. Open in browser:
 
